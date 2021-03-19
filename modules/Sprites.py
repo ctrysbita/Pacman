@@ -53,12 +53,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.top = y
 
         # setup some attributes
-        self.base_speed = 30
-        self.curr_speed = 0
+        self.move_area = self.rect.size[0]
 
     def Update(self):
-        pass
+        self.MoveUpdate()
+        self.AnimUpdate()
 
+    def MoveUpdate(self):
+        for event in pygame.event.get():
+            if(event.type == pygame.KEYDOWN):
+                # TODO: Switch?
+                pass
     def AnimUpdate(self):
         pass
 
