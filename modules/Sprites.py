@@ -7,9 +7,16 @@ FilePath: \PacMan\modules\Sprites.py
 '''
 
 import pygame
+import enum
 import random
 
 from pygame.color import Color
+
+class Dir(enum):
+    UP = 0
+    DOWN = 1
+    LEFT = 2
+    RIGHT = 3
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color, **kwargs):
@@ -55,19 +62,33 @@ class Player(pygame.sprite.Sprite):
         # setup some attributes
         self.move_area = self.rect.size[0]
 
-    def Update(self):
-        self.MoveUpdate()
-        self.AnimUpdate()
+    def Update(self, wall_sprites, gates_sprites):
+        is_collide = pygame.sprite.spritecollide(self, wall_sprites+gates_sprites, dokill=False)
 
-    def MoveUpdate(self):
-        for event in pygame.event.get():
-            if(event.type == pygame.KEYDOWN):
-                # TODO: Switch?
-                pass
-    def AnimUpdate(self):
-        pass
+        if (is_collide):
+            for event in pygame.event.get():
+                if (event.key == pygame.K_LEFT):
+                    self.rect.x -= self.move_area
+                    self.AnimUpdate(Dir.LEFT)
 
+                elif (event.key == pygame.K_RIGHT):
+                    self.rect.x += self.move_area
+                    self.AnimUpdate(Dir.RIGHT)
 
+                elif (event.key == pygame.K_UP):
+                    self.rect.y += self.move_area
+                    self.AnimUpdate(Dir.UP)
 
-        
-        
+                elif (event.key == pygame.K_DOWN):
+                    self.rect.y -= self.move_area
+                    self.AnimUpdate(Dir.DOWN)
+
+    def AnimUpdate(self, face_dir):
+        if(face_dir == Dir.LEFT):
+            self.image = pygame.transform.flip(self.base_image, True, False)
+        elif(face_dir == Dir.RIGHT):
+            self.image = self.base_image.copy()
+        elif(face_dir == Dir.UP):
+            self.image = pygame.transform.rotate(self.base_image, 90)
+        elif(face_dir == Dir.DOWN):
+            self.image = pygame.transform.rotate(self.base_image, -90)
