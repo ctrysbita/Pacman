@@ -1,18 +1,9 @@
-'''
-Function:
-    吃豆豆小游戏
-Author:
-    Charles
-微信公众号:
-    Charles的皮卡丘
-'''
 import sys
 import cfg
 import pygame
 import modules.Levels as Levels
 from PacMan.Pacman.modules import Vector2
 
-'''开始某一关游戏'''
 def startLevelGame(level, screen, font):
     clock = pygame.time.Clock()
     SCORE = 0
@@ -49,38 +40,7 @@ def startLevelGame(level, screen, font):
         wall_sprites.draw(screen)
         gate_sprites.draw(screen)
         food_sprites.draw(screen)
-        # for ghost in ghost_sprites:
-        #     # 幽灵随机运动(效果不好且有BUG)
-        #     '''
-        #     res = ghost.update(wall_sprites, None)
-        #     while not res:
-        #         ghost.changeSpeed(ghost.randomDirection())
-        #         res = ghost.update(wall_sprites, None)
-        #     '''
-        #     # 指定幽灵运动路径
-        #     if ghost.tracks_loc[1] < ghost.tracks[ghost.tracks_loc[0]][2]:
-        #         ghost.changeSpeed(ghost.tracks[ghost.tracks_loc[0]][0: 2])
-        #         ghost.tracks_loc[1] += 1
-        #     else:
-        #         if ghost.tracks_loc[0] < len(ghost.tracks) - 1:
-        #             ghost.tracks_loc[0] += 1
-        #         elif ghost.role_name == 'Clyde':
-        #             ghost.tracks_loc[0] = 2
-        #         else:
-        #             ghost.tracks_loc[0] = 0
-        #         ghost.changeSpeed(ghost.tracks[ghost.tracks_loc[0]][0: 2])
-        #         ghost.tracks_loc[1] = 0
-        #     if ghost.tracks_loc[1] < ghost.tracks[ghost.tracks_loc[0]][2]:
-        #         ghost.changeSpeed(ghost.tracks[ghost.tracks_loc[0]][0: 2])
-        #     else:
-        #         if ghost.tracks_loc[0] < len(ghost.tracks) - 1:
-        #             loc0 = ghost.tracks_loc[0] + 1
-        #         elif ghost.role_name == 'Clyde':
-        #             loc0 = 2
-        #         else:
-        #             loc0 = 0
-        #         ghost.changeSpeed(ghost.tracks[loc0][0: 2])
-        #     ghost.update(wall_sprites, None)
+
         ghost_sprites.draw(screen)
         score_text = font.render("Score: %s" % SCORE, True, cfg.RED)
         screen.blit(score_text, [10, 10])
@@ -95,7 +55,6 @@ def startLevelGame(level, screen, font):
     return is_clearance
 
 
-'''显示文字'''
 def showText(screen, font, is_clearance, flag=False):
     clock = pygame.time.Clock()
     msg = 'Game Over!' if not is_clearance else 'Congratulations, you won!'
@@ -130,7 +89,6 @@ def showText(screen, font, is_clearance, flag=False):
         clock.tick(10)
 
 
-'''初始化'''
 def initialize():
     pygame.init()
     icon_image = pygame.image.load(cfg.ICONPATH)
@@ -139,8 +97,6 @@ def initialize():
     pygame.display.set_caption('Pacman')
     return screen
 
-
-'''主函数'''
 def main(screen):
     pygame.mixer.init()
     pygame.mixer.music.load(cfg.BGMPATH)
