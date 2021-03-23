@@ -60,6 +60,7 @@ class Player(pygame.sprite.Sprite):
         self.move_buffer = Vector2.Zero()
         self.move_dir = Vector2.Zero()
         self.move_area = 10
+        self.move_dArea = 30
         # self.wall_sprites = wall_sprites
         # self.gates_sprites = gates_sprites
 
@@ -69,15 +70,15 @@ class Player(pygame.sprite.Sprite):
         if(move_buffer != Vector2.Zero()):
             self.move_buffer = move_buffer
         if(self.move_buffer != Vector2.Zero()):
-            self.rect.x = self.rect.x + self.move_area * move_buffer.x
-            self.rect.y = self.rect.y + self.move_area * move_buffer.y
+            self.rect.x = self.rect.x + self.move_dArea * move_buffer.x
+            self.rect.y = self.rect.y + self.move_dArea * move_buffer.y
             is_collide = pygame.sprite.spritecollide(self, wall_sprites, dokill=False)
             if is_collide:
-                self.rect.x = self.rect.x + self.move_area * move_buffer.x * -1
-                self.rect.y = self.rect.y + self.move_area * move_buffer.y * -1
+                self.rect.x = self.rect.x + self.move_dArea * move_buffer.x * -1
+                self.rect.y = self.rect.y + self.move_dArea * move_buffer.y * -1
             else:
-                self.rect.x = self.rect.x + self.move_area * move_buffer.x * -1
-                self.rect.y = self.rect.y + self.move_area * move_buffer.y * -1
+                self.rect.x = self.rect.x + self.move_dArea * move_buffer.x * -1
+                self.rect.y = self.rect.y + self.move_dArea * move_buffer.y * -1
                 self.move_dir = move_buffer
                 self.move_buffer = Vector2.Zero()
 
