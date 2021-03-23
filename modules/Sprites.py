@@ -64,9 +64,9 @@ class Player(pygame.sprite.Sprite):
         # self.wall_sprites = wall_sprites
         # self.gates_sprites = gates_sprites
 
-    # TODO: Make it FixedUpdate, UpdateAnimation, FixedOngoingPath, Command_Buffer
+    # TODO: Make it FixedUpdate
     def update(self, wall_sprites, gates_sprites, move_buffer):
-        print(pygame.time.get_ticks())
+
         if(move_buffer != Vector2.Zero()):
             self.move_buffer = move_buffer
         if(self.move_buffer != Vector2.Zero()):
