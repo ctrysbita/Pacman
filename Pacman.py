@@ -4,6 +4,7 @@ import pygame
 import modules.Levels as Levels
 import modules.Util as Util
 
+
 def startLevelGame(level, screen, font):
     clock = pygame.time.Clock()
     SCORE = 0
