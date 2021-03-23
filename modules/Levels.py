@@ -33,7 +33,7 @@ class Level01():
     def setupPlayers(self, hero_image_path, ghost_images_path):
         self.hero_sprites = pygame.sprite.Group()
         self.ghost_sprites = pygame.sprite.Group()
-        self.hero_sprites.add(Player(287, 439, hero_image_path))
+        self.hero_sprites.add(Player(290, 440, hero_image_path))
         for each in ghost_images_path:
             role_name = each.split('/')[-1].split('.')[0]
             if role_name == 'Blinky':

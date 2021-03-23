@@ -2,7 +2,7 @@ import sys
 import cfg
 import pygame
 import modules.Levels as Levels
-from PacMan.Pacman.modules import Vector2
+import modules.Util as Util
 
 def startLevelGame(level, screen, font):
     clock = pygame.time.Clock()
@@ -12,27 +12,26 @@ def startLevelGame(level, screen, font):
     hero_sprites, ghost_sprites = level.setupPlayers(cfg.HEROPATH, [cfg.BlinkyPATH, cfg.ClydePATH, cfg.InkyPATH, cfg.PinkyPATH])
     food_sprites = level.setupFood(cfg.YELLOW, cfg.WHITE)
     is_clearance = False
-    move_dir = Vector2.Zero()
+    move_buffer = Util.Vector2.Zero()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(-1)
                 pygame.quit()
-
             if (event.type == pygame.KEYDOWN):
                 if (event.key == pygame.K_LEFT):
-                    move_dir = -1 * Vector2.Right()
+                    move_buffer = -1 * Vector2.Right()
                 elif (event.key == pygame.K_RIGHT):
-                    move_dir = Vector2.Right()
+                    move_buffer = Vector2.Right()
                 elif (event.key == pygame.K_UP):
-                    move_dir = Vector2.Up()
+                    move_buffer = Vector2.Up()
                 elif (event.key == pygame.K_DOWN):
-                    move_dir = -1 * Vector2.Up()
-            elif(event.type == pygame.KEYUP):
-                move_dir = Vector2.Zero()
+                    move_buffer = -1 * Vector2.Up()
+            # elif(event.type == pygame.KEYUP):
+            #     move_dir = Vector2.Zero()
         screen.fill(cfg.BLACK)
         for hero in hero_sprites:
-            hero.update(wall_sprites, gate_sprites, move_dir)
+            hero.update(wall_sprites, gate_sprites, move_buffer)
         hero_sprites.draw(screen)
         for hero in hero_sprites:
             food_eaten = pygame.sprite.spritecollide(hero, food_sprites, True)
@@ -51,7 +50,7 @@ def startLevelGame(level, screen, font):
             is_clearance = False
             break
         pygame.display.flip()
-        clock.tick(10)
+        clock.tick(20)
     return is_clearance
 
 
@@ -99,8 +98,8 @@ def initialize():
 
 def main(screen):
     pygame.mixer.init()
-    pygame.mixer.music.load(cfg.BGMPATH)
-    pygame.mixer.music.play(-1, 0.0)
+    # pygame.mixer.music.load(cfg.BGMPATH)
+    # pygame.mixer.music.play(-1, 0.0)
     pygame.font.init()
     font_small = pygame.font.Font(cfg.FONTPATH, 18)
     font_big = pygame.font.Font(cfg.FONTPATH, 24)
