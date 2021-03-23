@@ -9,10 +9,9 @@ FilePath: \PacMan\modules\Sprites.py
 import pygame
 import enum
 import random
-from .Util import *
+from .Util import Vector2
 
 from pygame.color import Color
-
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color, **kwargs):
@@ -60,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         # setup some attributes
         self.move_buffer = Vector2.Zero()
         self.move_dir = Vector2.Zero()
-        self.move_area = 30
+        self.move_area = 10
         # self.wall_sprites = wall_sprites
         # self.gates_sprites = gates_sprites
 

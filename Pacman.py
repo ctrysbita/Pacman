@@ -4,7 +4,6 @@ import pygame
 import modules.Levels as Levels
 import modules.Util as Util
 
-
 def startLevelGame(level, screen, font):
     clock = pygame.time.Clock()
     SCORE = 0
@@ -21,13 +20,13 @@ def startLevelGame(level, screen, font):
                 pygame.quit()
             if (event.type == pygame.KEYDOWN):
                 if (event.key == pygame.K_LEFT):
-                    move_buffer = -1 * Vector2.Right()
+                    move_buffer = -1 * Util.Vector2.Right()
                 elif (event.key == pygame.K_RIGHT):
-                    move_buffer = Vector2.Right()
+                    move_buffer = Util.Vector2.Right()
                 elif (event.key == pygame.K_UP):
-                    move_buffer = Vector2.Up()
+                    move_buffer = Util.Vector2.Up()
                 elif (event.key == pygame.K_DOWN):
-                    move_buffer = -1 * Vector2.Up()
+                    move_buffer = -1 * Util.Vector2.Up()
             # elif(event.type == pygame.KEYUP):
             #     move_dir = Vector2.Zero()
         screen.fill(cfg.BLACK)
