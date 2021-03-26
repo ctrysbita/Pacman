@@ -11,9 +11,12 @@ def startLevelGame(level, screen, font):
     gate_sprites = level.setupGate(cfg.WHITE)
     hero_sprites, ghost_sprites = level.setupPlayers(cfg.HEROPATH, [cfg.BlinkyPATH, cfg.ClydePATH, cfg.InkyPATH, cfg.PinkyPATH])
     food_sprites = level.setupFood(cfg.YELLOW, cfg.WHITE)
+    boosterFood_sprites = level.setupBoosterFood(cfg.YELLOW, cfg.WHITE)
+    pathData = level.setupPathData()
     is_clearance = False
     move_buffer = Util.Vector2.Zero()
     while True:
+        # Input from User
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit(-1)
@@ -29,6 +32,14 @@ def startLevelGame(level, screen, font):
                     move_buffer = -1 * Util.Vector2.Up()
             # elif(event.type == pygame.KEYUP):
             #     move_dir = Vector2.Zero()
+
+        # GhostAI
+        for hero in hero_sprites:
+            for ghost in ghost_sprites:
+                if ghost.AIProgram != None:
+                    temp_move_buffer = ghost.AIProgram(pathData, ghost, hero)
+                ghost.update(wall_sprites, gate_sprites, temp_move_buffer)
+
         screen.fill(cfg.BLACK)
         for hero in hero_sprites:
             hero.update(wall_sprites, gate_sprites, move_buffer)

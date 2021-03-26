@@ -1,9 +1,6 @@
 import pygame
 
 class Vector2():
-    def __init__(self, x, y):
-        return (x, y)
-
     @classmethod
     def Right(cls):
         return pygame.Vector2(1, 0)

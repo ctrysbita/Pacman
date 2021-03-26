@@ -61,15 +61,20 @@ class Player(pygame.sprite.Sprite):
         self.move_dir = Vector2.Zero()
         self.move_area = 10
         self.move_dArea = 30
+        self.AIProgram = None
         # self.wall_sprites = wall_sprites
         # self.gates_sprites = gates_sprites
 
     # TODO: Make it FixedUpdate
     def update(self, wall_sprites, gates_sprites, move_buffer):
+        # if(self.AIProgram != None):
+        #     move_buffer = self.AIProgram(1, 2, 3)
+        self.moveUpdate(wall_sprites, gates_sprites, move_buffer)
 
-        if(move_buffer != Vector2.Zero()):
+    def moveUpdate(self, wall_sprites, gates_sprites, move_buffer):
+        if (move_buffer != Vector2.Zero()):
             self.move_buffer = move_buffer
-        if(self.move_buffer != Vector2.Zero()):
+        if (self.move_buffer != Vector2.Zero()):
             self.rect.x = self.rect.x + self.move_dArea * move_buffer.x
             self.rect.y = self.rect.y + self.move_dArea * move_buffer.y
             is_collide = pygame.sprite.spritecollide(self, wall_sprites, dokill=False)
@@ -82,7 +87,7 @@ class Player(pygame.sprite.Sprite):
                 self.move_dir = move_buffer
                 self.move_buffer = Vector2.Zero()
 
-        if(self.move_dir != Vector2.Zero()):
+        if (self.move_dir != Vector2.Zero()):
             self.AnimUpdate(self.move_dir)
 
         self.rect.x = self.rect.x + self.move_area * self.move_dir.x
