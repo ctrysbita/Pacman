@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 from jupyterlab.semver import Range
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import shortest_path
@@ -19,13 +20,12 @@ class GhostAI():
         end_col = (PacmanSprite.rect.x-32) / 30
         end_row = round(end_row)
         end_col = round(end_col)
-        # pathData[start_row][start_col] = 2
-        # pathData[end_row][end_col] = 2
+        # pathData[start_row][start_col] = 7
+        # for each in pathData:
+        #     print(each)
+        # print("\n")
 
-        # print(PacmanSprite.rect.x, PacmanSprite.rect.y)
-        # print(end_row, end_col)
-        graph = [0] * 361
-        graph = [graph] * 361
+        graph = np.zeros((361, 361), dtype='int32')
 
         for row in range(19):
             for col in range(19):
@@ -45,7 +45,7 @@ class GhostAI():
         cur_index = end_row * 19 + end_col
         pre_node = 0
         dist_matrix, predecessors = shortest_path(csgraph=graph, directed=False, indices=start_index, return_predecessors=True)
-
+        print(predecessors[cur_index], start_row, start_col, end_row, end_col)
         while(predecessors[cur_index] != -9999):
             pre_node = cur_index
             cur_index = predecessors[cur_index]
@@ -62,7 +62,7 @@ class GhostAI():
         elif c < start_col:
             move_Buffer = Vector2.Right() * -1
 
-        print(r, c)
+        #print(pre_node,r, c, start_row, start_col, end_row, end_col)
         # print(move_Buffer)
 
         return move_Buffer

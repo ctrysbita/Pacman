@@ -49,7 +49,7 @@ class Level01():
             if role_name == 'Blinky':
                 player = Player(287, 199, each)
                 player.AIProgram = GhostAI.Blinky
-                player.move_area = 1
+                player.move_area = 5
                 self.ghost_sprites.add(player)
             elif role_name == 'Clyde':
                 player = Player(319, 259, each)
