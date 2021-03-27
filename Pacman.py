@@ -9,7 +9,7 @@ def startLevelGame(level, screen, font):
     SCORE = 0
     wall_sprites = level.setupWalls(cfg.SKYBLUE)
     gate_sprites = level.setupGate(cfg.WHITE)
-    hero_sprites, ghost_sprites = level.setupPlayers(cfg.HEROPATH, [cfg.BlinkyPATH])
+    hero_sprites, ghost_sprites = level.setupPlayers(cfg.HEROPATH, [cfg.BlinkyPATH, cfg.ClydePATH, cfg.InkyPATH, cfg.PinkyPATH])
     food_sprites = level.setupFood(cfg.YELLOW, cfg.WHITE)
     boosterFood_sprites = level.setupBoosterFood(cfg.YELLOW, cfg.WHITE)
     pathData = level.setupPathData()

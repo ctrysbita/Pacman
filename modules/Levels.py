@@ -51,35 +51,22 @@ class Level01():
                 player.AIProgram = GhostAI.Blinky
                 player.move_area = 5
                 self.ghost_sprites.add(player)
+
             elif role_name == 'Clyde':
                 player = Player(319, 259, each)
-                player.is_move = True
-                player.tracks = [
-                    [-1, 0, 2], [0, -0.5, 4], [0.5, 0, 5], [0, 0.5, 7], [-0.5, 0, 11], [0, -0.5, 7],
-                    [-0.5, 0, 3], [0, 0.5, 7], [-0.5, 0, 7], [0, 0.5, 15], [0.5, 0, 15], [0, -0.5, 3],
-                    [-0.5, 0, 11], [0, -0.5, 7], [0.5, 0, 3], [0, -0.5, 11], [0.5, 0, 9]
-                ]
+                player.AIProgram = GhostAI.Clyde
                 self.ghost_sprites.add(player)
+
             elif role_name == 'Inky':
                 player = Player(255, 259, each)
-                player.is_move = True
-                player.tracks = [
-                    [1, 0, 2], [0, -0.5, 4], [0.5, 0, 10], [0, 0.5, 7], [0.5, 0, 3], [0, -0.5, 3],
-                    [0.5, 0, 3], [0, -0.5, 15], [-0.5, 0, 15], [0, 0.5, 3], [0.5, 0, 15], [0, 0.5, 11],
-                    [-0.5, 0, 3], [0, -0.5, 7], [-0.5, 0, 11], [0, 0.5, 3], [-0.5, 0, 11], [0, 0.5, 7],
-                    [-0.5, 0, 3], [0, -0.5, 3], [-0.5, 0, 3], [0, -0.5, 15], [0.5, 0, 15], [0, 0.5, 3],
-                    [-0.5, 0, 15], [0, 0.5, 11], [0.5, 0, 3], [0, -0.5, 11], [0.5, 0, 11], [0, 0.5, 3], [0.5, 0, 1]
-                ]
+                player.AIProgram = GhostAI.Inky
                 self.ghost_sprites.add(player)
+
             elif role_name == 'Pinky':
                 player = Player(287, 259, each)
-                player.is_move = True
-                player.tracks = [
-                    [0, -1, 4], [0.5, 0, 9], [0, 0.5, 11], [-0.5, 0, 23], [0, 0.5, 7], [0.5, 0, 3],
-                    [0, -0.5, 3], [0.5, 0, 19], [0, 0.5, 3], [0.5, 0, 3], [0, 0.5, 3], [0.5, 0, 3],
-                    [0, -0.5, 15], [-0.5, 0, 7], [0, 0.5, 3], [-0.5, 0, 19], [0, -0.5, 11], [0.5, 0, 9]
-                ]
+                player.AIProgram = GhostAI.Pinky
                 self.ghost_sprites.add(player)
+
         return self.hero_sprites, self.ghost_sprites
 
     def setupFood(self, food_color, bg_color):
@@ -123,10 +110,10 @@ class Level01():
             tmpList = []
             tmpList.clear()
             for col in range(19):
-                if (row == 7 or row == 8) and (col == 8 or col == 9 or col == 10):
-                    tmpList.append(1)
-                    continue
-                else:
+                # if (row == 7 and (col ==8 or col == 10)):
+                #     tmpList.append(1)
+                #     continue
+                # else:
                     # TODO: push pathData
                     food = Food(30 * col + 32, 30 * row + 32, 8, 8, (0,0,0), (0,0,0))
                     is_collide = pygame.sprite.spritecollide(food, self.wall_sprites, False)
