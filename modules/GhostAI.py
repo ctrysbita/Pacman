@@ -24,20 +24,26 @@ class GhostAI():
 
         # print(PacmanSprite.rect.x, PacmanSprite.rect.y)
         # print(end_row, end_col)
-        graph = []
+        graph = [0] * 361
+        graph = [graph] * 361
 
         for row in range(19):
             for col in range(19):
                 if(pathData[row][col] == 0):
                     if(col+1 < 19 and pathData[row][col+1] == 0):
-                        graph[row*19+col][row*19+col+1] = 1
-                    
+                        graph[row * 19+col][row * 19 + col + 1] = 1
+                    if (row + 1 < 19 and pathData[row + 1][col] == 0):
+                        graph[row * 19 + col][(row + 1) * 19 + col] = 1
+                    if (col > 0 and pathData[row][col - 1] == 0):
+                        graph[row * 19 + col][row * 19 + col - 1] = 1
+                    if (row > 0 and pathData[row - 1][col] == 0):
+                        graph[row * 19 + col][(row - 1) * 19 + col] = 1
 
-        counter = 0
-        for each in pathData:
-            counter += 1
-            print(each)
-        print(counter)
+        graph = csr_matrix(graph)
+
+        dist_matrix, predecessors = shortest_path(csgraph=graph, directed=False, indices=98, return_predecessors=True)
+
+        print(predecessors)
 
         return move_Buffer
 
