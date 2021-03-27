@@ -86,7 +86,6 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = self.rect.y + self.move_dArea * move_buffer.y * -1
                 self.move_dir = move_buffer
                 self.move_buffer = Vector2.Zero()
-
         if (self.move_dir != Vector2.Zero()):
             self.AnimUpdate(self.move_dir)
 
