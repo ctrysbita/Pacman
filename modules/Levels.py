@@ -45,7 +45,7 @@ class Level01():
         self.hero_sprites.add(Player(290, 440, hero_image_path))
         for each in ghost_images_path:
             role_name = each.split('/')[-1].split('.')[0]
-            # TODO:Blinky改造中···
+            # TODO:Ghost改造完毕
             if role_name == 'Blinky':
                 player = Player(287, 199, each)
                 player.AIProgram = GhostAI.Blinky
@@ -55,16 +55,19 @@ class Level01():
             elif role_name == 'Clyde':
                 player = Player(319, 259, each)
                 player.AIProgram = GhostAI.Clyde
+                player.move_area = 6
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Inky':
                 player = Player(255, 259, each)
                 player.AIProgram = GhostAI.Inky
+                player.move_area = 7
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Pinky':
                 player = Player(287, 259, each)
                 player.AIProgram = GhostAI.Pinky
+                player.move_area = 8
                 self.ghost_sprites.add(player)
 
         return self.hero_sprites, self.ghost_sprites
@@ -110,16 +113,11 @@ class Level01():
             tmpList = []
             tmpList.clear()
             for col in range(19):
-                # if (row == 7 and (col ==8 or col == 10)):
-                #     tmpList.append(1)
-                #     continue
-                # else:
-                    # TODO: push pathData
-                    food = Food(30 * col + 32, 30 * row + 32, 8, 8, (0,0,0), (0,0,0))
-                    is_collide = pygame.sprite.spritecollide(food, self.wall_sprites, False)
-                    if is_collide:
-                        tmpList.append(1)
-                        continue
-                    tmpList.append(0)
+                collider = Food(30 * col + 32, 30 * row + 32, 8, 8, (0,0,0), (0,0,0))
+                is_collide = pygame.sprite.spritecollide(collider, self.wall_sprites, False)
+                if is_collide:
+                    tmpList.append(1)
+                    continue
+                tmpList.append(0)
             self.pathData.append(tmpList)
         return self.pathData

@@ -4,9 +4,6 @@ from .Util import Vector2
 from .Util import PathFind
 
 class GhostAI():
-    def __int__(self):
-        pass
-
     @classmethod
     def Blinky(cls, pathData, Sprite, PacmanSprite):
         tarPos = pygame.Vector2(PacmanSprite.rect.x, PacmanSprite.rect.y)
