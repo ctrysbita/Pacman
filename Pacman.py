@@ -109,8 +109,8 @@ def initialize():
 
 def main(screen):
     pygame.mixer.init()
-    # pygame.mixer.music.load(cfg.BGMPATH)
-    # pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.load(cfg.BGMPATH)
+    pygame.mixer.music.play(-1, 0.0)
     pygame.font.init()
     font_small = pygame.font.Font(cfg.FONTPATH, 18)
     font_big = pygame.font.Font(cfg.FONTPATH, 24)
