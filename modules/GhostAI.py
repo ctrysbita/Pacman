@@ -4,6 +4,8 @@ from .Util import Util
 from jupyterlab.semver import Range
 
 class GhostAI():
+
+    ''' Transform World Wide Location to a iterable game map'''
     @classmethod
     def LocProcess(cls, Ghost, Pacman):
         tarPos = pygame.Vector2(Pacman.rect.y, Pacman.rect.x)
@@ -16,6 +18,8 @@ class GhostAI():
 
     @classmethod
     def Blinky(cls, pathData, Ghost, Pacman):
+
+        # Slow movement
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
         return Util.path_finding(pathData, selfPos, tarPos)
@@ -24,6 +28,7 @@ class GhostAI():
     def Clyde(cls, pathData, Ghost, Pacman):
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
+        # Foresee the movement of Pacman
         for offset in range(1, 4):
             tmp = tarPos + Pacman.move_dir * offset
             if (tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0):
@@ -38,6 +43,8 @@ class GhostAI():
     def Inky(cls, pathData, Ghost, Pacman):
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
+
+        # Chase the Pacman 1-4 tiles slow
         for offset in range(1, 4):
             tmp = tarPos + Pacman.move_dir * offset * -1
             if (tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0):
@@ -50,9 +57,12 @@ class GhostAI():
 
     @classmethod
     def Pinky(cls, pathData, Ghost, Pacman):
+
+        # Chase the pacman with 100% speed
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
-        #
+        # # RandomMovement
+
         # # No need to use targetPos of pacman, because pinky is kinda silly
         # selfPos, tarPos = GhostAI.LocProcess(Ghost, Ghost)
         #

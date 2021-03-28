@@ -11,7 +11,7 @@ def startLevelGame(level, screen, font):
     gate_sprites = level.setupGate(cfg.WHITE)
     hero_sprites, ghost_sprites = level.setupPlayers(cfg.HEROPATH, [cfg.BlinkyPATH, cfg.ClydePATH, cfg.InkyPATH, cfg.PinkyPATH])
     food_sprites = level.setupFood(cfg.YELLOW, cfg.WHITE)
-    boosterFood_sprites = level.setupBoosterFood(cfg.YELLOW, cfg.WHITE)
+    superFood_sprites = level.setupSuperFood(cfg.YELLOW, cfg.WHITE)
     pathData = level.setupPathData()
     is_clearance = False
     move_buffer = Util.Vector2.Zero()
@@ -33,7 +33,7 @@ def startLevelGame(level, screen, font):
             # elif(event.type == pygame.KEYUP):
             #     move_dir = Vector2.Zero()
 
-        # GhostAI
+        # GhostAI Installment
         for hero in hero_sprites:
             for ghost in ghost_sprites:
                 if ghost.AIProgram != None:
@@ -46,10 +46,12 @@ def startLevelGame(level, screen, font):
         hero_sprites.draw(screen)
         for hero in hero_sprites:
             food_eaten = pygame.sprite.spritecollide(hero, food_sprites, True)
+            food_eaten += 2 * pygame.sprite.spritecollide(hero, superFood_sprites, True)
         SCORE += len(food_eaten)
         wall_sprites.draw(screen)
         gate_sprites.draw(screen)
         food_sprites.draw(screen)
+        superFood_sprites.draw(screen)
         ghost_sprites.draw(screen)
 
         score_text = font.render("Score: %s" % SCORE, True, cfg.RED)

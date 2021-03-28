@@ -57,18 +57,24 @@ class Player(pygame.sprite.Sprite):
         self.rect.top = y
 
         # setup some attributes
+
+        # Input Ahead
         self.move_buffer = Util.Vector2.Zero()
+        # Current movement
         self.move_dir = Util.Vector2.Zero()
+        # MoveSpeed
         self.move_area = 6
+        # Wall Detect Speed
         self.move_dArea = 30
+        # GhostAI
         self.AIProgram = None
-        # self.wall_sprites = wall_sprites
-        # self.gates_sprites = gates_sprites
 
     def update(self, wall_sprites, gates_sprites, move_buffer):
         self.moveUpdate(wall_sprites, gates_sprites, move_buffer)
 
     def moveUpdate(self, wall_sprites, gates_sprites, move_buffer):
+
+        # Try pre-movement every frame, test it whether it is legal
         if (move_buffer != Util.Vector2.Zero()):
             self.move_buffer = move_buffer
         if (self.move_buffer != Util.Vector2.Zero()):
@@ -84,12 +90,15 @@ class Player(pygame.sprite.Sprite):
                 self.move_dir = self.move_buffer
                 self.move_buffer = Util.Vector2.Zero()
 
+        # Update Current Animation
         if (self.move_dir != Util.Vector2.Zero()):
             self.AnimUpdate(self.move_dir)
 
+        # Move
         self.rect.x = self.rect.x + self.move_area * self.move_dir.x
         self.rect.y = self.rect.y + self.move_area * self.move_dir.y
 
+        # If collide with walls, move back
         is_collide = pygame.sprite.spritecollide(self, wall_sprites, False)
         if is_collide:
             self.rect.x = self.rect.x + self.move_area * self.move_dir.x * -1
