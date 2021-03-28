@@ -72,19 +72,3 @@ class Util():
             move_Buffer = Util.Vector2.Right() * -1
 
         return move_Buffer
-
-    class Thread(threading.Thread):
-        def __init__(self, function, args=()):
-            threading.Thread.__init__(self)
-            self.function = function
-            self.args = args
-            self.result = None
-
-        def run(self):
-            self.result = self.function(*self.args)
-
-        def get_result(self):
-            try:
-                return self.result
-            except Exception:
-                return None
