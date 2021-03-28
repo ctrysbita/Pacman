@@ -1,25 +1,34 @@
 import pygame
+from .Util import Util
 from jupyterlab.semver import Range
-from .Util import Vector2
-from .Util import PathFind
 
 class GhostAI():
     @classmethod
-    def Blinky(cls, pathData, Sprite, PacmanSprite):
-        tarPos = pygame.Vector2(PacmanSprite.rect.x, PacmanSprite.rect.y)
-        return PathFind.path_finding(pathData, Sprite.rect, PacmanSprite.rect)
+    def LocProcess(cls, Ghost, Pacman, offset):
+        tarPos = pygame.Vector2(Pacman.rect.y, Pacman.rect.x)
+        selfPos = pygame.Vector2(Ghost.rect.y, Ghost.rect.x)
+
+        tarPos = [round((i - 16) / 30) for i in tarPos] + offset
+        selfPos = [round((i - 16) / 30) for i in selfPos]
+
+        return selfPos, tarPos
 
     @classmethod
-    def Clyde(cls, pathData, Sprite, PacmanSprite):
-        tarPos = pygame.Vector2(PacmanSprite.rect.x, PacmanSprite.rect.y)
-        return PathFind.path_finding(pathData, Sprite.rect,  PacmanSprite.rect)
+    def Blinky(cls, pathData, Ghost, Pacman):
+        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman, [0, 0])
+        return Util.path_finding(pathData, selfPos, tarPos)
 
     @classmethod
-    def Inky(cls, pathData, Sprite, PacmanSprite):
-        tarPos = pygame.Vector2(PacmanSprite.rect.x, PacmanSprite.rect.y)
-        return PathFind.path_finding(pathData, Sprite.rect, PacmanSprite.rect)
+    def Clyde(cls, pathData, Ghost, Pacman):
+        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman, [0, 0])
+        return Util.path_finding(pathData, selfPos,  tarPos)
 
     @classmethod
-    def Pinky(cls, pathData, Sprite, PacmanSprite):
-        tarPos = pygame.Vector2(PacmanSprite.rect.x, PacmanSprite.rect.y)
-        return PathFind.path_finding(pathData, Sprite.rect, PacmanSprite.rect)
+    def Inky(cls, pathData, Ghost, Pacman):
+        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman, [0, 0])
+        return Util.path_finding(pathData, selfPos, tarPos)
+
+    @classmethod
+    def Pinky(cls, pathData, Ghost, Pacman):
+        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman, [0, 0])
+        return Util.path_finding(pathData, selfPos, tarPos)

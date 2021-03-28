@@ -9,7 +9,7 @@ FilePath: \PacMan\modules\Sprites.py
 import pygame
 import enum
 import random
-from .Util import Vector2
+from .Util import Util
 
 from pygame.color import Color
 
@@ -17,6 +17,7 @@ class Wall(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color, **kwargs):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([width, height])
+
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.left = x
@@ -46,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.char_name = char_image_path.split('/')[-1].split('.')[0]
         # load original image and convert it to canvas
-        self.base_image = pygame.image.load(char_image_path).convert()
+        self.base_image = pygame.image.load(char_image_path).convert_alpha()
         # Copy, not reference
         self.image = self.base_image.copy()
 
@@ -56,51 +57,50 @@ class Player(pygame.sprite.Sprite):
         self.rect.top = y
 
         # setup some attributes
-        self.move_buffer = Vector2.Zero()
-        self.move_dir = Vector2.Zero()
-        self.move_area = 10
+        self.move_buffer = Util.Vector2.Zero()
+        self.move_dir = Util.Vector2.Zero()
+        self.move_area = 6
         self.move_dArea = 30
         self.AIProgram = None
         # self.wall_sprites = wall_sprites
         # self.gates_sprites = gates_sprites
 
-    # TODO: Make it FixedUpdate
     def update(self, wall_sprites, gates_sprites, move_buffer):
-        # if(self.AIProgram != None):
-        #     move_buffer = self.AIProgram(1, 2, 3)
         self.moveUpdate(wall_sprites, gates_sprites, move_buffer)
 
     def moveUpdate(self, wall_sprites, gates_sprites, move_buffer):
-        if (move_buffer != Vector2.Zero()):
+        if (move_buffer != Util.Vector2.Zero()):
             self.move_buffer = move_buffer
-        if (self.move_buffer != Vector2.Zero()):
-            self.rect.x = self.rect.x + self.move_dArea * move_buffer.x
-            self.rect.y = self.rect.y + self.move_dArea * move_buffer.y
-            is_collide = pygame.sprite.spritecollide(self, wall_sprites, dokill=False)
-            if is_collide:
-                self.rect.x = self.rect.x + self.move_dArea * move_buffer.x * -1
-                self.rect.y = self.rect.y + self.move_dArea * move_buffer.y * -1
+        if (self.move_buffer != Util.Vector2.Zero()):
+            self.rect.x = self.rect.x + self.move_dArea * self.move_buffer.x
+            self.rect.y = self.rect.y + self.move_dArea * self.move_buffer.y
+            is_collide = pygame.sprite.spritecollide(self, wall_sprites, False)
+            if(is_collide):
+                self.rect.x = self.rect.x + self.move_dArea * self.move_buffer.x * -1
+                self.rect.y = self.rect.y + self.move_dArea * self.move_buffer.y * -1
             else:
-                self.rect.x = self.rect.x + self.move_dArea * move_buffer.x * -1
-                self.rect.y = self.rect.y + self.move_dArea * move_buffer.y * -1
-                self.move_dir = move_buffer
-                self.move_buffer = Vector2.Zero()
-        if (self.move_dir != Vector2.Zero()):
+                self.rect.x = self.rect.x + self.move_dArea * self.move_buffer.x * -1
+                self.rect.y = self.rect.y + self.move_dArea * self.move_buffer.y * -1
+                self.move_dir = self.move_buffer
+                self.move_buffer = Util.Vector2.Zero()
+
+        if (self.move_dir != Util.Vector2.Zero()):
             self.AnimUpdate(self.move_dir)
 
         self.rect.x = self.rect.x + self.move_area * self.move_dir.x
         self.rect.y = self.rect.y + self.move_area * self.move_dir.y
-        is_collide = pygame.sprite.spritecollide(self, wall_sprites, dokill=False)
+
+        is_collide = pygame.sprite.spritecollide(self, wall_sprites, False)
         if is_collide:
             self.rect.x = self.rect.x + self.move_area * self.move_dir.x * -1
             self.rect.y = self.rect.y + self.move_area * self.move_dir.y * -1
 
     def AnimUpdate(self, vec2):
-        if (vec2 == Vector2.Right()):
+        if (vec2 == Util.Vector2.Right()):
             self.image = self.base_image.copy()
-        elif (vec2 == -1 * Vector2.Right()):
+        elif (vec2 == -1 * Util.Vector2.Right()):
             self.image = pygame.transform.flip(self.base_image, True, False)
-        elif (vec2 == Vector2.Up()):
+        elif (vec2 == Util.Vector2.Up()):
             self.image = pygame.transform.rotate(self.base_image, 90)
         else:
             self.image = pygame.transform.rotate(self.base_image, -90)

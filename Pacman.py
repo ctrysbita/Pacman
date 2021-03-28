@@ -37,8 +37,8 @@ def startLevelGame(level, screen, font):
         for hero in hero_sprites:
             for ghost in ghost_sprites:
                 if ghost.AIProgram != None:
-                    temp_move_buffer = ghost.AIProgram(pathData, ghost, hero)
-                ghost.update(wall_sprites, gate_sprites, temp_move_buffer)
+                    tmp_move_buffer = ghost.AIProgram(pathData, ghost, hero)
+                ghost.update(wall_sprites, gate_sprites, tmp_move_buffer)
 
         screen.fill(cfg.BLACK)
         for hero in hero_sprites:
@@ -50,8 +50,8 @@ def startLevelGame(level, screen, font):
         wall_sprites.draw(screen)
         gate_sprites.draw(screen)
         food_sprites.draw(screen)
-
         ghost_sprites.draw(screen)
+
         score_text = font.render("Score: %s" % SCORE, True, cfg.RED)
         screen.blit(score_text, [10, 10])
         if len(food_sprites) == 0:
@@ -61,7 +61,7 @@ def startLevelGame(level, screen, font):
             is_clearance = False
             break
         pygame.display.flip()
-        clock.tick(20)
+        clock.tick(30)
     return is_clearance
 
 

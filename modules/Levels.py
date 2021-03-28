@@ -43,31 +43,33 @@ class Level01():
         self.hero_sprites = pygame.sprite.Group()
         self.ghost_sprites = pygame.sprite.Group()
         self.hero_sprites.add(Player(290, 440, hero_image_path))
+        for hero in self.hero_sprites:
+            hero.move_area = hero.move_area
         for each in ghost_images_path:
             role_name = each.split('/')[-1].split('.')[0]
             # TODO:Ghost改造完毕
             if role_name == 'Blinky':
                 player = Player(287, 199, each)
                 player.AIProgram = GhostAI.Blinky
-                player.move_area = 5
+                player.move_area = 4
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Clyde':
                 player = Player(319, 259, each)
                 player.AIProgram = GhostAI.Clyde
-                player.move_area = 6
+                player.move_area = 4
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Inky':
                 player = Player(255, 259, each)
                 player.AIProgram = GhostAI.Inky
-                player.move_area = 7
+                player.move_area = 4
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Pinky':
                 player = Player(287, 259, each)
                 player.AIProgram = GhostAI.Pinky
-                player.move_area = 8
+                player.move_area = 6
                 self.ghost_sprites.add(player)
 
         return self.hero_sprites, self.ghost_sprites
