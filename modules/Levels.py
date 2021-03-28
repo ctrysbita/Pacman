@@ -57,20 +57,20 @@ class Level01():
             elif role_name == 'Clyde':
                 player = Player(319, 259, each)
                 player.AIProgram = GhostAI.Clyde
-                player.move_area = 6
+                player.move_area = 5.5
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Inky':
                 player = Player(255, 259, each)
                 player.AIProgram = GhostAI.Inky
-                player.move_area = 5
+                player.move_area = 4.5
                 self.ghost_sprites.add(player)
 
             elif role_name == 'Pinky':
                 player = Player(287, 259, each)
                 player.AIProgram = GhostAI.Pinky
                 player.hangOn = 0
-                player.move_area = 6
+                player.move_area = 5.5
                 self.ghost_sprites.add(player)
 
         return self.hero_sprites, self.ghost_sprites
