@@ -49,78 +49,14 @@ class Game:
 
             self.screen.fill(colors.WHITE)
 
-            welcome_title = self.font_title.render('Pac Man', True,
+            welcome_title = self.font_title_big.render('Pac Man', True,
                                                    colors.BLACK)
-            self.screen.blit(welcome_title, (150, 100))
+            self.screen.blit(welcome_title, (140, 100))
             play_caption = self.font_big.render('Press ENTER to play', True,
                                                 colors.BLACK)
-            self.screen.blit(play_caption, (160, 200))
+            self.screen.blit(play_caption, (160, 300))
             play_caption = self.font_big.render('Press ESC to exit', True,
                                                 colors.BLACK)
-            self.screen.blit(play_caption, (160, 220))
-
-            pygame.display.flip()
-
-    def over(self):
-        pygame.mixer.music.stop()
-
-        # Transparent UI
-        ui_layer = pygame.Surface([606, 606])
-        ui_layer.set_alpha(255*0.9)
-        ui_layer.fill(colors.WHITE)
-        self.screen.blit(ui_layer, (0, 0))
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit(0)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        exit(0)
-                    elif event.key == pygame.K_RETURN:
-                        self.state = GameState.PLAYING
-                        return
-
-            welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
-            self.screen.blit(welcome_title, (115, 100))
-            play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 300))
-            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
-            self.screen.blit(play_caption, (180, 350))
-
-            pygame.display.flip()
-
-    def win(self):
-        pygame.mixer.music.stop()
-
-        # Transparent UI
-        ui_layer = pygame.Surface([606, 606])
-        ui_layer.set_alpha(255 * 0.9)
-        ui_layer.fill(colors.WHITE)
-        self.screen.blit(ui_layer, (0, 0))
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit(0)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        exit(0)
-                    elif event.key == pygame.K_RETURN:
-                        self.state = GameState.PLAYING
-                        return
-
-            welcome_title = self.font_title_small.render('Congratulations!', True, colors.BLACK)
-            self.screen.blit(welcome_title, (150, 100))
-            welcome_title = self.font_title_big.render('YOU WIN!', True, colors.SKYBLUE)
-            self.screen.blit(welcome_title, (150, 148))
-            play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 300))
-            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
             self.screen.blit(play_caption, (180, 350))
 
             pygame.display.flip()
@@ -203,7 +139,7 @@ class Game:
 
         # Attach a translucent layer.
         translucent_layer = pygame.Surface((606, 606))
-        translucent_layer.set_alpha(200)
+        translucent_layer.set_alpha(255*0.9)
         translucent_layer.fill(colors.WHITE)
         self.screen.blit(translucent_layer, (0, 0))
 
@@ -213,11 +149,17 @@ class Game:
             self.over()
 
     def win(self):
-        welcome_title = self.font_title.render('You Win', True, colors.BLACK)
-        self.screen.blit(welcome_title, (120, 100))
+        welcome_title = self.font_title_small.render('Congratulations!', True, colors.BLACK)
+        self.screen.blit(welcome_title, (150, 100))
+        welcome_title = self.font_title_big.render('YOU WIN!', True, colors.SKYBLUE)
+        self.screen.blit(welcome_title, (150, 148))
         score = self.font_big.render('Score: %s' % self.score, True,
                                      colors.BLACK)
-        self.screen.blit(score, (160, 200))
+        self.screen.blit(score, (250, 225))
+        play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+        self.screen.blit(play_caption, (160, 300))
+        play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+        self.screen.blit(play_caption, (180, 350))
 
         pygame.display.flip()
 
@@ -232,11 +174,15 @@ class Game:
                         return
 
     def over(self):
-        welcome_title = self.font_title.render('Game Over', True, colors.BLACK)
-        self.screen.blit(welcome_title, (120, 100))
+        welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
+        self.screen.blit(welcome_title, (115, 100))
         score = self.font_big.render('Final Score: %s' % self.score, True,
                                      colors.BLACK)
-        self.screen.blit(score, (160, 200))
+        self.screen.blit(score, (200, 200))
+        play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+        self.screen.blit(play_caption, (160, 300))
+        play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+        self.screen.blit(play_caption, (180, 350))
 
         pygame.display.flip()
 
