@@ -31,13 +31,17 @@ class Game:
         self.state = GameState.WELCOME
 
     def welcome(self):
+        pygame.mixer.stop()
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit(0)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        exit(0)
+                    elif event.key == pygame.K_RETURN:
                         self.state = GameState.PLAYING
                         return
 
@@ -45,6 +49,10 @@ class Game:
 
             welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
             self.screen.blit(welcome_title, (150, 100))
+            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 200))
+            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 220))
 
             pygame.display.flip()
 
@@ -68,7 +76,10 @@ class Game:
                     pygame.quit()
                     exit(0)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_ESCAPE:
+                        self.state = GameState.WELCOME
+                        return
+                    elif event.key == pygame.K_LEFT:
                         movement = -1 * util.Vector2.right()
                     elif event.key == pygame.K_RIGHT:
                         movement = util.Vector2.right()
