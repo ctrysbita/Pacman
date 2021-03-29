@@ -110,6 +110,7 @@ class Game:
             hero_sprites.draw(self.screen)
             ghost_sprites.draw(self.screen)
             food_sprites.draw(self.screen)
+            super_food_sprites.draw(self.screen)
 
             score_text = self.font_small.render("Score: %s" % score, True, colors.RED)
             self.screen.blit(score_text, [10, 10])

@@ -22,7 +22,7 @@ class GhostAI:
         # Slow movement
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
-        return util.path_finding(pathData, selfPos, tarPos)
+        return util.find_path(pathData, selfPos, tarPos)
 
     @classmethod
     def Clyde(cls, pathData, Ghost, Pacman):
@@ -37,7 +37,7 @@ class GhostAI:
                 tarPos = tmp
                 break
 
-        return util.path_finding(pathData, selfPos, tarPos)
+        return util.find_path(pathData, selfPos, tarPos)
 
     @classmethod
     def Inky(cls, pathData, Ghost, Pacman):
@@ -52,7 +52,7 @@ class GhostAI:
                 tarPos = tmp
                 break
 
-        return util.path_finding(pathData, selfPos, tarPos)
+        return util.find_path(pathData, selfPos, tarPos)
 
     @classmethod
     def Pinky(cls, pathData, Ghost, Pacman):
@@ -82,4 +82,4 @@ class GhostAI:
         #
         # Ghost.hangOn -= 1
 
-        return util.path_finding(pathData, selfPos, tarPos)
+        return util.find_path(pathData, selfPos, tarPos)
