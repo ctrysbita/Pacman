@@ -5,7 +5,6 @@ import util
 
 class GhostAI:
     """ Transform World Wide Location to a iterable game map"""
-
     @classmethod
     def LocProcess(cls, Ghost, Pacman):
         tarPos = pygame.Vector2(Pacman.rect.y, Pacman.rect.x)

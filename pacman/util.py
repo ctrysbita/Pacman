@@ -31,9 +31,14 @@ class Vector2:
 
 
 def find_path(path_data, self_pos, target_pos):
+
+    # The final movement command that will be returned
     move_buffer = Vector2.zero()
+
+    # An empty graph waiting to be filled
     graph = np.zeros((361, 361), dtype='int32')
 
+    # Convert map data into a 361 x 361 array of distances representing the graph.
     for row in range(19):
         for col in range(19):
             if path_data[row][col] == 0:
@@ -46,19 +51,33 @@ def find_path(path_data, self_pos, target_pos):
                 if row > 0 and path_data[row - 1][col] == 0:
                     graph[row * 19 + col][(row - 1) * 19 + col] = 1
 
+    # Using Scipy matrix compressing to compress the graph to increase efficiency
     graph = csr_matrix(graph)
+
+    # Current position of Ghost
     start_index = int(self_pos[0] * 19 + self_pos[1])
+
+    # Current postion of Pacman. Later will be used as predecessor to reconstruct the shortest path
     cur_index = int(target_pos[0] * 19 + target_pos[1])
+
+    # Store the next position the ghost should go to
     pre_node = 0
+
+    # Using Scipy shortest_path algorithm to get the shortest_path
+    # In this game's case, it is Dijkstra algorithm
     dist_matrix, predecessors = shortest_path(csgraph=graph, directed=False, indices=start_index,
                                               return_predecessors=True)
+
+    # Reconstruct shortest_path
     while predecessors[cur_index] != -9999:
         pre_node = cur_index
         cur_index = predecessors[cur_index]
 
+    # Convert the distance data back to map data in order to guide the ghost movement
     r = int(pre_node / 19)
     c = pre_node % 19
 
+    # Turn the map data into certain movement command
     if r > self_pos[0]:
         move_buffer = Vector2.down()
     elif r < self_pos[0]:
