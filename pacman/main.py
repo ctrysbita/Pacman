@@ -8,6 +8,7 @@ from level import Level
 
 
 class GameState(Enum):
+    """States of the game. Indicates the page to show."""
     WELCOME = 0
     PLAYING = 1
     WIN = 2
@@ -15,6 +16,7 @@ class GameState(Enum):
 
 
 class Game:
+    """Core Pac Man entity including game logic implementation and page & resource management."""
     def __init__(self):
         pygame.display.set_caption('Pacman')
         self.screen = pygame.display.set_mode([606, 606])
@@ -66,6 +68,7 @@ class Game:
         pygame.mixer.music.set_volume(0.75)
         pygame.mixer.music.play(-1, 0.0)
 
+        # Load level (map)
         level = Level()
         wall_sprites = level.setup_walls(colors.SKYBLUE)
         gate_sprites = level.setup_gate(colors.WHITE)
@@ -98,15 +101,18 @@ class Game:
 
             self.screen.fill(colors.BLACK)
 
+            # Update position of pacman.
             for hero in hero_sprites:
                 hero.update(wall_sprites, gate_sprites, movement)
 
+            # Update score.
             for hero in hero_sprites:
                 self.score += len(
                     pygame.sprite.spritecollide(hero, food_sprites, True))
                 self.score += 2 * len(
                     pygame.sprite.spritecollide(hero, super_food_sprites,
                                                 True))
+            # Update ghost AI.
             for hero in hero_sprites:
                 for ghost in ghost_sprites:
                     if ghost.AIProgram is not None:
