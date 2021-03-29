@@ -3,8 +3,8 @@ import pygame
 import util
 
 
-class GhostAI():
-    ''' Transform World Wide Location to a iterable game map'''
+class GhostAI:
+    """ Transform World Wide Location to a iterable game map"""
 
     @classmethod
     def LocProcess(cls, Ghost, Pacman):
