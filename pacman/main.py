@@ -6,6 +6,14 @@ import colors
 import util
 from level import Level
 
+
+class GameState(Enum):
+    WELCOME = 0
+    PLAYING = 1
+    WIN = 2
+    OVER = 3
+
+
 class Game:
     def __init__(self):
         pygame.display.set_caption('Pacman')
@@ -19,9 +27,9 @@ class Game:
         self.font_big = pygame.font.Font('res/alger.ttf', 24)
         self.font_title = pygame.font.Font('res/alger.ttf', 72)
 
-        self.main_program = self.welcome
         self.clock = pygame.time.Clock()
         self.state = GameState.WELCOME
+        self.score = 0
 
     def welcome(self):
         pygame.mixer.music.stop()
@@ -35,16 +43,19 @@ class Game:
                         pygame.quit()
                         exit(0)
                     elif event.key == pygame.K_RETURN:
-                        self.main_program = self.play
+                        self.state = GameState.PLAYING
                         return
 
             self.screen.fill(colors.WHITE)
 
-            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
+            welcome_title = self.font_title.render('Pac Man', True,
+                                                   colors.BLACK)
             self.screen.blit(welcome_title, (150, 100))
-            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
+            play_caption = self.font_big.render('Press ENTER to play', True,
+                                                colors.BLACK)
             self.screen.blit(play_caption, (160, 200))
-            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+            play_caption = self.font_big.render('Press ESC to exit', True,
+                                                colors.BLACK)
             self.screen.blit(play_caption, (160, 220))
 
             pygame.display.flip()
@@ -60,7 +71,7 @@ class Game:
                                                     colors.WHITE)
         path_data = level.setup_path_data()
 
-        score = 0
+        self.score = 0
         movement = util.Vector2.zero()
 
         while True:
@@ -73,13 +84,13 @@ class Game:
                         self.state = GameState.WELCOME
                         return
                     elif event.key == pygame.K_LEFT:
-                        movement = -1 * util.Vector2.right()
+                        movement = util.Vector2.left()
                     elif event.key == pygame.K_RIGHT:
                         movement = util.Vector2.right()
                     elif event.key == pygame.K_UP:
                         movement = util.Vector2.up()
                     elif event.key == pygame.K_DOWN:
-                        movement = -1 * util.Vector2.up()
+                        movement = util.Vector2.down()
 
             self.screen.fill(colors.BLACK)
 
@@ -87,15 +98,16 @@ class Game:
                 hero.update(wall_sprites, gate_sprites, movement)
 
             for hero in hero_sprites:
-                score += len(
+                self.score += len(
                     pygame.sprite.spritecollide(hero, food_sprites, True))
-                score += 2 * len(
+                self.score += 2 * len(
                     pygame.sprite.spritecollide(hero, super_food_sprites,
                                                 True))
             for hero in hero_sprites:
                 for ghost in ghost_sprites:
                     if ghost.AIProgram is not None:
-                        tmp_move_buffer = ghost.AIProgram(path_data, ghost, hero)
+                        tmp_move_buffer = ghost.AIProgram(
+                            path_data, ghost, hero)
                     ghost.update(wall_sprites, gate_sprites, tmp_move_buffer)
 
             wall_sprites.draw(self.screen)
@@ -105,20 +117,82 @@ class Game:
             food_sprites.draw(self.screen)
             super_food_sprites.draw(self.screen)
 
-            score_text = self.font_small.render("Score: %s" % score, True, colors.RED)
-            self.screen.blit(score_text, [10, 10])
+            score_text = self.font_small.render("Score: %s" % self.score, True,
+                                                colors.RED)
+            self.screen.blit(score_text, (10, 10))
 
-            if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False, False):
-                pass
+            if len(food_sprites) == 0 and len(super_food_sprites) == 0:
+                self.state = GameState.WIN
+                return
 
-
+            if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False,
+                                          False):
+                self.state = GameState.OVER
+                return
 
             pygame.display.flip()
             self.clock.tick(30)
 
+    def show_score(self):
+        pygame.mixer.music.stop()
+
+        # Attach a translucent layer.
+        translucent_layer = pygame.Surface((606, 606))
+        translucent_layer.set_alpha(200)
+        translucent_layer.fill(colors.WHITE)
+        self.screen.blit(translucent_layer, (0, 0))
+
+        if self.state == GameState.WIN:
+            self.win()
+        else:
+            self.over()
+
+    def win(self):
+        welcome_title = self.font_title.render('You Win', True, colors.BLACK)
+        self.screen.blit(welcome_title, (120, 100))
+        score = self.font_big.render('Score: %s' % self.score, True,
+                                     colors.BLACK)
+        self.screen.blit(score, (160, 200))
+
+        pygame.display.flip()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.state = GameState.WELCOME
+                        return
+
+    def over(self):
+        welcome_title = self.font_title.render('Game Over', True, colors.BLACK)
+        self.screen.blit(welcome_title, (120, 100))
+        score = self.font_big.render('Final Score: %s' % self.score, True,
+                                     colors.BLACK)
+        self.screen.blit(score, (160, 200))
+
+        pygame.display.flip()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.state = GameState.WELCOME
+                        return
+
     def run(self):
         while True:
-            self.main_program()
+            {
+                GameState.WELCOME: self.welcome,
+                GameState.PLAYING: self.play,
+                GameState.WIN: self.show_score,
+                GameState.OVER: self.show_score
+            }[self.state]()
 
 
 if __name__ == '__main__':

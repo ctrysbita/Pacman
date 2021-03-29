@@ -31,7 +31,7 @@ class GhostAI:
         # Foresee the movement of Pacman
         for offset in range(1, 4):
             tmp = tarPos + Pacman.move_dir * offset
-            if (tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0):
+            if tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0:
                 break
             if pathData[int(tmp[0])][int(tmp[1])] == 0:
                 tarPos = tmp
@@ -46,7 +46,7 @@ class GhostAI:
         # Chase the Pacman 1-4 tiles slow
         for offset in range(1, 4):
             tmp = tarPos + Pacman.move_dir * offset * -1
-            if (tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0):
+            if tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0:
                 break
             if pathData[int(tmp[0])][int(tmp[1])] == 0:
                 tarPos = tmp
