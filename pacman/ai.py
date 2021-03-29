@@ -59,26 +59,4 @@ class GhostAI:
         # Chase the pacman with 100% speed
         selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
 
-        # # RandomMovement
-
-        # # No need to use targetPos of pacman, because pinky is kinda silly
-        # selfPos, tarPos = GhostAI.LocProcess(Ghost, Ghost)
-        #
-        # print(Ghost.hangOn)
-        # if(Ghost.hangOn == 0):
-        #     rand_x = random.randint(0,18)
-        #     rand_y = random.randint(0,18)
-        #
-        #     while pathData[rand_x][rand_y] == 1:
-        #         rand_x = random.randint(0, 18)
-        #         rand_y = random.randint(0, 18)
-        #     else:
-        #         tarPos = pygame.Vector2(rand_x, rand_y)
-        #
-        # # A clock
-        # if(Ghost.hangOn == 0):
-        #     Ghost.hangOn = random.randint(30, 200)
-        #
-        # Ghost.hangOn -= 1
-
         return util.find_path(pathData, selfPos, tarPos)
