@@ -6,6 +6,14 @@ import colors
 import util
 from level import Level
 
+
+class GameState(Enum):
+    WELCOME = 0
+    PLAYING = 1
+    WIN = 2
+    OVER = 3
+
+
 class Game:
     def __init__(self):
         pygame.display.set_caption('Pacman')
@@ -19,7 +27,6 @@ class Game:
         self.font_big = pygame.font.Font('res/alger.ttf', 24)
         self.font_title = pygame.font.Font('res/alger.ttf', 72)
 
-        self.main_program = self.welcome
         self.clock = pygame.time.Clock()
         self.state = GameState.WELCOME
 
@@ -35,7 +42,59 @@ class Game:
                         pygame.quit()
                         exit(0)
                     elif event.key == pygame.K_RETURN:
-                        self.main_program = self.play
+                        self.state = GameState.PLAYING
+                        return
+
+            self.screen.fill(colors.WHITE)
+
+            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
+            self.screen.blit(welcome_title, (150, 100))
+            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 200))
+            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 220))
+
+            pygame.display.flip()
+
+    def over(self):
+        pygame.mixer.music.stop()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        exit(0)
+                    elif event.key == pygame.K_RETURN:
+                        self.state = GameState.PLAYING
+                        return
+
+            self.screen.fill(colors.WHITE)
+            self.screen.set_alpha(10)
+            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
+            self.screen.blit(welcome_title, (150, 100))
+            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 200))
+            play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 220))
+
+            pygame.display.flip()
+
+    def win(self):
+        pygame.mixer.music.stop()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        exit(0)
+                    elif event.key == pygame.K_RETURN:
+                        self.state = GameState.PLAYING
                         return
 
             self.screen.fill(colors.WHITE)
@@ -108,17 +167,30 @@ class Game:
             score_text = self.font_small.render("Score: %s" % score, True, colors.RED)
             self.screen.blit(score_text, [10, 10])
 
+            # Game OVER
             if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False, False):
-                pass
+                self.state = GameState.OVER
+                return
 
-
+            # Game WIN
+            if len(food_sprites) + len(super_food_sprites) == 0:
+                self.state = GameState.WIN
+                return
 
             pygame.display.flip()
             self.clock.tick(30)
 
     def run(self):
+        # State Machine Switch
         while True:
-            self.main_program()
+            if self.state == GameState.WELCOME:
+                self.welcome()
+            elif self.state == GameState.PLAYING:
+                self.play()
+            elif self.state == GameState.WIN:
+                self.win()
+            else:
+                self.over()
 
 
 if __name__ == '__main__':
