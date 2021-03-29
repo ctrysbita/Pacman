@@ -25,7 +25,8 @@ class Game:
         pygame.font.init()
         self.font_small = pygame.font.Font('res/alger.ttf', 18)
         self.font_big = pygame.font.Font('res/alger.ttf', 24)
-        self.font_title = pygame.font.Font('res/alger.ttf', 72)
+        self.font_title_small = pygame.font.Font('res/alger.ttf', 32)
+        self.font_title_big = pygame.font.Font('res/alger.ttf', 72)
 
         self.clock = pygame.time.Clock()
         self.state = GameState.WELCOME
@@ -47,17 +48,24 @@ class Game:
 
             self.screen.fill(colors.WHITE)
 
-            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
+            welcome_title = self.font_title_big.render('Pac Man', True, colors.BLACK)
             self.screen.blit(welcome_title, (150, 100))
             play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 200))
+            self.screen.blit(play_caption, (160, 300))
             play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 220))
+            self.screen.blit(play_caption, (180, 350))
 
             pygame.display.flip()
 
     def over(self):
         pygame.mixer.music.stop()
+
+        # Transparent UI
+        ui_layer = pygame.Surface([606, 606])
+        ui_layer.set_alpha(255*0.9)
+        ui_layer.fill(colors.WHITE)
+        self.screen.blit(ui_layer, (0, 0))
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -71,19 +79,24 @@ class Game:
                         self.state = GameState.PLAYING
                         return
 
-            self.screen.fill(colors.WHITE)
-            self.screen.set_alpha(10)
-            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
-            self.screen.blit(welcome_title, (150, 100))
-            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 200))
+            welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
+            self.screen.blit(welcome_title, (115, 100))
+            play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 300))
             play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 220))
+            self.screen.blit(play_caption, (180, 350))
 
             pygame.display.flip()
 
     def win(self):
         pygame.mixer.music.stop()
+
+        # Transparent UI
+        ui_layer = pygame.Surface([606, 606])
+        ui_layer.set_alpha(255 * 0.9)
+        ui_layer.fill(colors.WHITE)
+        self.screen.blit(ui_layer, (0, 0))
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -97,14 +110,14 @@ class Game:
                         self.state = GameState.PLAYING
                         return
 
-            self.screen.fill(colors.WHITE)
-
-            welcome_title = self.font_title.render('Pac Man', True, colors.BLACK)
+            welcome_title = self.font_title_small.render('Congratulations!', True, colors.BLACK)
             self.screen.blit(welcome_title, (150, 100))
-            play_caption = self.font_big.render('Press ENTER to play', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 200))
+            welcome_title = self.font_title_big.render('YOU WIN!', True, colors.SKYBLUE)
+            self.screen.blit(welcome_title, (150, 148))
+            play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+            self.screen.blit(play_caption, (160, 300))
             play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
-            self.screen.blit(play_caption, (160, 220))
+            self.screen.blit(play_caption, (180, 350))
 
             pygame.display.flip()
 
