@@ -151,7 +151,7 @@ class Game:
             if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False,
                                           False):
                 self.state = GameState.OVER
-                # return
+                return
 
             pygame.display.flip()
             self.clock.tick(30)
