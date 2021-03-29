@@ -65,7 +65,9 @@ def find_path(path_data, self_pos, target_pos):
 
     # Using Scipy shortest_path algorithm to get the shortest_path
     # In this game's case, it is Dijkstra algorithm
-    dist_matrix, predecessors = shortest_path(csgraph=graph, directed=False, indices=start_index,
+    dist_matrix, predecessors = shortest_path(csgraph=graph,
+                                              directed=False,
+                                              indices=start_index,
                                               return_predecessors=True)
 
     # Reconstruct shortest_path

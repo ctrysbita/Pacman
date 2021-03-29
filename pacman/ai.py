@@ -4,9 +4,9 @@ import util
 
 
 class GhostAI:
-    """ Transform World Wide Location to a iterable game map"""
     @classmethod
-    def LocProcess(cls, ghost, pacman):
+    def get_pos(cls, ghost, pacman):
+        """ Transform World Wide Location to a iterable game map"""
         target_pos = pygame.Vector2(pacman.rect.y, pacman.rect.x)
         self_pos = pygame.Vector2(ghost.rect.y, ghost.rect.x)
 
@@ -19,13 +19,13 @@ class GhostAI:
     def Blinky(cls, path_data, ghost, pacman):
 
         # Slow movement
-        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
+        self_pos, target_pos = GhostAI.get_pos(ghost, pacman)
 
         return util.find_path(path_data, self_pos, target_pos)
 
     @classmethod
     def Clyde(cls, path_data, ghost, pacman):
-        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
+        self_pos, target_pos = GhostAI.get_pos(ghost, pacman)
 
         # Foresee the movement of pacman
         for offset in range(1, 4):
@@ -40,7 +40,7 @@ class GhostAI:
 
     @classmethod
     def Inky(cls, path_data, ghost, pacman):
-        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
+        self_pos, target_pos = GhostAI.get_pos(ghost, pacman)
 
         # Chase the pacman 1-4 tiles slow
         for offset in range(1, 4):
@@ -57,6 +57,6 @@ class GhostAI:
     def Pinky(cls, path_data, ghost, pacman):
 
         # Chase the pacman with 100% speed
-        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
+        self_pos, target_pos = GhostAI.get_pos(ghost, pacman)
 
         return util.find_path(path_data, self_pos, target_pos)

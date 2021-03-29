@@ -115,9 +115,7 @@ class Game:
             # Update ghost AI.
             for hero in hero_sprites:
                 for ghost in ghost_sprites:
-                    if ghost.ai is not None:
-                        tmp_move_buffer = ghost.AIProgram(
-                            path_data, ghost, hero)
+                    tmp_move_buffer = ghost.ai(path_data, ghost, hero)
                     ghost.update(wall_sprites, gate_sprites, tmp_move_buffer)
 
             wall_sprites.draw(self.screen)
@@ -138,7 +136,7 @@ class Game:
             if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False,
                                           False):
                 self.state = GameState.OVER
-                return
+                # return
 
             pygame.display.flip()
             self.clock.tick(30)

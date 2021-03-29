@@ -4,6 +4,7 @@ from sprite import Food, Player, Wall
 
 
 class Level:
+    """Represent a level (map) in game."""
     wall_specs = [
         (0, 0, 6, 600),
         (0, 0, 600, 6),
