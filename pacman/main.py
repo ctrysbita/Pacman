@@ -6,14 +6,6 @@ import colors
 import util
 from level import Level
 
-
-class GameState(Enum):
-    WELCOME = 0
-    PLAYING = 1
-    WIN = 2
-    OVER = 3
-
-
 class Game:
     def __init__(self):
         pygame.display.set_caption('Pacman')
@@ -27,6 +19,7 @@ class Game:
         self.font_big = pygame.font.Font('res/alger.ttf', 24)
         self.font_title = pygame.font.Font('res/alger.ttf', 72)
 
+        self.main_program = self.welcome
         self.clock = pygame.time.Clock()
         self.state = GameState.WELCOME
 
@@ -42,7 +35,7 @@ class Game:
                         pygame.quit()
                         exit(0)
                     elif event.key == pygame.K_RETURN:
-                        self.state = GameState.PLAYING
+                        self.main_program = self.play
                         return
 
             self.screen.fill(colors.WHITE)
@@ -115,15 +108,17 @@ class Game:
             score_text = self.font_small.render("Score: %s" % score, True, colors.RED)
             self.screen.blit(score_text, [10, 10])
 
+            if pygame.sprite.groupcollide(ghost_sprites, hero_sprites, False, False):
+                pass
+
+
+
             pygame.display.flip()
             self.clock.tick(30)
 
     def run(self):
         while True:
-            if self.state == GameState.WELCOME:
-                self.welcome()
-            else:
-                self.play()
+            self.main_program()
 
 
 if __name__ == '__main__':
