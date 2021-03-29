@@ -113,10 +113,10 @@ class Game:
 
             wall_sprites.draw(self.screen)
             gate_sprites.draw(self.screen)
-            hero_sprites.draw(self.screen)
-            ghost_sprites.draw(self.screen)
             food_sprites.draw(self.screen)
             super_food_sprites.draw(self.screen)
+            hero_sprites.draw(self.screen)
+            ghost_sprites.draw(self.screen)
 
             score_text = self.font_small.render("Score: %s" % self.score, True,
                                                 colors.RED)
@@ -172,6 +172,9 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.state = GameState.WELCOME
                         return
+                    elif event.key == pygame.K_RETURN:
+                        self.state = GameState.PLAYING
+                        return
 
     def over(self):
         welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
@@ -194,6 +197,9 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.state = GameState.WELCOME
+                        return
+                    elif event.key == pygame.K_RETURN:
+                        self.state = GameState.PLAYING
                         return
 
     def run(self):
