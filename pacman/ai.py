@@ -6,57 +6,57 @@ import util
 class GhostAI:
     """ Transform World Wide Location to a iterable game map"""
     @classmethod
-    def LocProcess(cls, Ghost, Pacman):
-        tarPos = pygame.Vector2(Pacman.rect.y, Pacman.rect.x)
-        selfPos = pygame.Vector2(Ghost.rect.y, Ghost.rect.x)
+    def LocProcess(cls, ghost, pacman):
+        target_pos = pygame.Vector2(pacman.rect.y, pacman.rect.x)
+        self_pos = pygame.Vector2(ghost.rect.y, ghost.rect.x)
 
-        tarPos = [round((i - 16) / 30) for i in tarPos]
-        selfPos = [round((i - 16) / 30) for i in selfPos]
+        target_pos = [round((i - 16) / 30) for i in target_pos]
+        self_pos = [round((i - 16) / 30) for i in self_pos]
 
-        return selfPos, tarPos
+        return self_pos, target_pos
 
     @classmethod
-    def Blinky(cls, pathData, Ghost, Pacman):
+    def Blinky(cls, path_data, ghost, pacman):
 
         # Slow movement
-        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
+        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
 
-        return util.find_path(pathData, selfPos, tarPos)
+        return util.find_path(path_data, self_pos, target_pos)
 
     @classmethod
-    def Clyde(cls, pathData, Ghost, Pacman):
-        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
+    def Clyde(cls, path_data, ghost, pacman):
+        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
 
-        # Foresee the movement of Pacman
+        # Foresee the movement of pacman
         for offset in range(1, 4):
-            tmp = tarPos + Pacman.move_dir * offset
+            tmp = target_pos + pacman.move_dir * offset
             if tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0:
                 break
-            if pathData[int(tmp[0])][int(tmp[1])] == 0:
-                tarPos = tmp
+            if path_data[int(tmp[0])][int(tmp[1])] == 0:
+                target_pos = tmp
                 break
 
-        return util.find_path(pathData, selfPos, tarPos)
+        return util.find_path(path_data, self_pos, target_pos)
 
     @classmethod
-    def Inky(cls, pathData, Ghost, Pacman):
-        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
+    def Inky(cls, path_data, ghost, pacman):
+        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
 
-        # Chase the Pacman 1-4 tiles slow
+        # Chase the pacman 1-4 tiles slow
         for offset in range(1, 4):
-            tmp = tarPos + Pacman.move_dir * offset * -1
+            tmp = target_pos + pacman.move_dir * offset * -1
             if tmp[0] > 18 or tmp[0] < 0 or tmp[1] > 18 or tmp[1] < 0:
                 break
-            if pathData[int(tmp[0])][int(tmp[1])] == 0:
-                tarPos = tmp
+            if path_data[int(tmp[0])][int(tmp[1])] == 0:
+                target_pos = tmp
                 break
 
-        return util.find_path(pathData, selfPos, tarPos)
+        return util.find_path(path_data, self_pos, target_pos)
 
     @classmethod
-    def Pinky(cls, pathData, Ghost, Pacman):
+    def Pinky(cls, path_data, ghost, pacman):
 
         # Chase the pacman with 100% speed
-        selfPos, tarPos = GhostAI.LocProcess(Ghost, Pacman)
+        self_pos, target_pos = GhostAI.LocProcess(ghost, pacman)
 
-        return util.find_path(pathData, selfPos, tarPos)
+        return util.find_path(path_data, self_pos, target_pos)

@@ -73,22 +73,22 @@ class Level:
             hero.move_area = hero.move_area
 
         player = Player('Blinky', 287, 199, Gif('res/blinky.gif', (32, 32)))
-        player.AIProgram = GhostAI.Blinky
+        player.ai = GhostAI.Blinky
         player.move_area = 4
         self.ghost_sprites.add(player)
 
         player = Player('Clyde', 319, 259, Gif('res/clyde.gif', (32, 32)))
-        player.AIProgram = GhostAI.Clyde
+        player.ai = GhostAI.Clyde
         player.move_area = 5.5
         self.ghost_sprites.add(player)
 
         player = Player('Inky', 255, 259, Gif('res/inky.gif', (32, 32)))
-        player.AIProgram = GhostAI.Inky
+        player.ai = GhostAI.Inky
         player.move_area = 4.5
         self.ghost_sprites.add(player)
 
         player = Player('Pinky', 287, 259, Gif('res/pinky.gif', (32, 32)))
-        player.AIProgram = GhostAI.Pinky
+        player.ai = GhostAI.Pinky
         player.hangOn = 0
         player.move_area = 5.5
         self.ghost_sprites.add(player)
@@ -123,8 +123,8 @@ class Level:
                                                or col == 10):
                     continue
                 elif col % 6 == 0 and row % 6 == 0:
-                    food = Food(30 * col + 32, 30 * row + 32, 12, 12,
-                                color, bg_color)
+                    food = Food(30 * col + 32, 30 * row + 32, 12, 12, color,
+                                bg_color)
                     is_collide = pygame.sprite.spritecollide(
                         food, self.wall_sprites, False)
                     if is_collide:

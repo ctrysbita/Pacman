@@ -115,7 +115,7 @@ class Game:
             # Update ghost AI.
             for hero in hero_sprites:
                 for ghost in ghost_sprites:
-                    if ghost.AIProgram is not None:
+                    if ghost.ai is not None:
                         tmp_move_buffer = ghost.AIProgram(
                             path_data, ghost, hero)
                     ghost.update(wall_sprites, gate_sprites, tmp_move_buffer)
@@ -148,7 +148,7 @@ class Game:
 
         # Attach a translucent layer.
         translucent_layer = pygame.Surface((606, 606))
-        translucent_layer.set_alpha(255*0.9)
+        translucent_layer.set_alpha(255 * 0.9)
         translucent_layer.fill(colors.WHITE)
         self.screen.blit(translucent_layer, (0, 0))
 
@@ -162,16 +162,20 @@ class Game:
         pygame.mixer.music.load('res/win.ogg')
         pygame.mixer.music.play()
 
-        welcome_title = self.font_title_small.render('Congratulations!', True, colors.BLACK)
+        welcome_title = self.font_title_small.render('Congratulations!', True,
+                                                     colors.BLACK)
         self.screen.blit(welcome_title, (150, 100))
-        welcome_title = self.font_title_big.render('YOU WIN!', True, colors.SKYBLUE)
+        welcome_title = self.font_title_big.render('YOU WIN!', True,
+                                                   colors.SKYBLUE)
         self.screen.blit(welcome_title, (150, 148))
         score = self.font_big.render('Score: %s' % self.score, True,
                                      colors.BLACK)
         self.screen.blit(score, (250, 225))
-        play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+        play_caption = self.font_big.render('Press ENTER to Replay', True,
+                                            colors.BLACK)
         self.screen.blit(play_caption, (160, 300))
-        play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+        play_caption = self.font_big.render('Press ESC to exit', True,
+                                            colors.BLACK)
         self.screen.blit(play_caption, (180, 350))
 
         pygame.display.flip()
@@ -194,14 +198,17 @@ class Game:
         pygame.mixer.music.load('res/lose.ogg')
         pygame.mixer.music.play()
 
-        welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
+        welcome_title = self.font_title_big.render('Game Over', True,
+                                                   colors.RED)
         self.screen.blit(welcome_title, (115, 100))
         score = self.font_big.render('Final Score: %s' % self.score, True,
                                      colors.BLACK)
         self.screen.blit(score, (200, 200))
-        play_caption = self.font_big.render('Press ENTER to Replay', True, colors.BLACK)
+        play_caption = self.font_big.render('Press ENTER to Replay', True,
+                                            colors.BLACK)
         self.screen.blit(play_caption, (160, 300))
-        play_caption = self.font_big.render('Press ESC to exit', True, colors.BLACK)
+        play_caption = self.font_big.render('Press ESC to exit', True,
+                                            colors.BLACK)
         self.screen.blit(play_caption, (180, 350))
 
         pygame.display.flip()
@@ -228,6 +235,7 @@ class Game:
                 GameState.WIN: self.show_score,
                 GameState.OVER: self.show_score
             }[self.state]()
+
 
 if __name__ == '__main__':
     Game().run()
