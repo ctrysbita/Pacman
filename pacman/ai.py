@@ -1,6 +1,6 @@
 import pygame
 
-import util as util
+import util
 
 
 class GhostAI:

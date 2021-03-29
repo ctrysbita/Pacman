@@ -2,8 +2,8 @@ from enum import Enum
 
 import pygame
 
-import colors as colors
-import util as util
+import colors
+import util
 from level import Level
 
 
