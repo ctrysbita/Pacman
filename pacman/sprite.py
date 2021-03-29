@@ -1,6 +1,6 @@
 import pygame
 
-import util
+import util as util
 from gif import Gif
 
 

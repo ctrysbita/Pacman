@@ -2,8 +2,8 @@ from enum import Enum
 
 import pygame
 
-import colors
-import util
+import colors as colors
+import util as util
 from level import Level
 
 
@@ -20,7 +20,6 @@ class Game:
         self.screen = pygame.display.set_mode([606, 606])
 
         pygame.mixer.init()
-        pygame.mixer.music.load('res/bgm.ogg')
 
         pygame.font.init()
         self.font_small = pygame.font.Font('res/alger.ttf', 18)
@@ -49,9 +48,8 @@ class Game:
 
             self.screen.fill(colors.WHITE)
 
-            welcome_title = self.font_title_big.render('Pac Man', True,
-                                                   colors.BLACK)
-            self.screen.blit(welcome_title, (140, 100))
+            background_png = pygame.image.load('res/background.png')
+            self.screen.blit(background_png, (0, 0))
             play_caption = self.font_big.render('Press ENTER to play', True,
                                                 colors.BLACK)
             self.screen.blit(play_caption, (160, 300))
@@ -62,7 +60,12 @@ class Game:
             pygame.display.flip()
 
     def play(self):
+        pygame.mixer.music.stop()
+        # Load and Play BGM
+        pygame.mixer.music.load('res/bgm.ogg')
+        pygame.mixer.music.set_volume(0.75)
         pygame.mixer.music.play(-1, 0.0)
+
         level = Level()
         wall_sprites = level.setup_walls(colors.SKYBLUE)
         gate_sprites = level.setup_gate(colors.WHITE)
@@ -149,6 +152,10 @@ class Game:
             self.over()
 
     def win(self):
+        # Load And Play win music
+        pygame.mixer.music.load('res/win.ogg')
+        pygame.mixer.music.play()
+
         welcome_title = self.font_title_small.render('Congratulations!', True, colors.BLACK)
         self.screen.blit(welcome_title, (150, 100))
         welcome_title = self.font_title_big.render('YOU WIN!', True, colors.SKYBLUE)
@@ -177,6 +184,10 @@ class Game:
                         return
 
     def over(self):
+        # Load And Play lose music
+        pygame.mixer.music.load('res/lose.ogg')
+        pygame.mixer.music.play()
+
         welcome_title = self.font_title_big.render('Game Over', True, colors.RED)
         self.screen.blit(welcome_title, (115, 100))
         score = self.font_big.render('Final Score: %s' % self.score, True,
@@ -211,7 +222,6 @@ class Game:
                 GameState.WIN: self.show_score,
                 GameState.OVER: self.show_score
             }[self.state]()
-
 
 if __name__ == '__main__':
     Game().run()
