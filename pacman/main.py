@@ -1,3 +1,18 @@
+# Copyright (C) 2021 @ctrysbita @x-mug
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 from enum import Enum
 
 import pygame
@@ -146,7 +161,7 @@ class Game:
 
         # Attach a translucent layer.
         translucent_layer = pygame.Surface((606, 606))
-        translucent_layer.set_alpha(255 * 0.9)
+        translucent_layer.set_alpha(int(255 * 0.9))
         translucent_layer.fill(colors.WHITE)
         self.screen.blit(translucent_layer, (0, 0))
 
